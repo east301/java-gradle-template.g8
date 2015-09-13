@@ -1,0 +1,21 @@
+///
+/// Build script for javadoc module.
+///
+
+apply from: "\${rootProject.projectDir}/gradle/java.gradle"
+
+def includedProjects = rootProject.subprojects.findAll { 
+    !['$name$-all', 'doc', 'javadoc', 'resource'].contains(it.name) 
+}
+
+dependencies {
+    compile includedProjects 
+}
+
+javadoc {
+    source includedProjects.collect {
+        it.projectDir.getAbsolutePath() + '/src/main/java'
+    }
+
+    options.locale = 'en_US'
+}

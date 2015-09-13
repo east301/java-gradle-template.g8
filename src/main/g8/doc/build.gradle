@@ -1,0 +1,14 @@
+///
+/// Build script for doc module.
+///
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.2'
+    }
+}
+
+apply plugin: 'org.asciidoctor.convert'

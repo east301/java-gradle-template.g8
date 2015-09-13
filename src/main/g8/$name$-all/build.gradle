@@ -1,0 +1,39 @@
+///
+/// Build script for all module.
+///
+
+apply from: "\${rootProject.projectDir}/gradle/java.gradle"
+apply from: "\${rootProject.projectDir}/gradle/application.gradle"
+
+mainClassName = '$package$.Launcher'
+
+dependencies {
+
+    // NOTE: do not add project(':resource') here
+    //       run `:resource:generateDependencyLicenseReport` manually.
+
+    compile     project(':$name$-api')
+    compile     project(':$name$-impl')
+
+    compile     project(':$name$-cli')
+    compile     project(':$name$-desktop')
+    compile     project(':$name$-server')
+
+    compile     project(':doc')
+    compile     project(':javadoc')
+
+    testCompile libraries.assertj
+    testCompile libraries.jmockit
+    testCompile libraries.testng
+
+}
+
+applicationDistribution.from(new File(project(':doc').buildDir, "docs/html5")) {
+    into 'doc'
+}
+
+applicationDistribution.from(new File(project(':javadoc').buildDir, "docs/javadoc")) {
+    into 'javadoc'
+}
+
+[distTar, distZip]*.dependsOn([':doc:asciidoctor', ':javadoc:javadoc'])

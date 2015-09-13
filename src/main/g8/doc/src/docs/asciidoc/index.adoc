@@ -1,0 +1,8 @@
+= $name$
+
+This project is generated 
+from https://github.com/east301/java-gradle-template.g8 
+using https://github.com/n8han/giter8.
+
+Codes included in the g8 template are available 
+under https://creativecommons.org/publicdomain/zero/1.0/deed.en[Creative Commons Zero (CC0)].

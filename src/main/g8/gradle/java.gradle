@@ -1,0 +1,196 @@
+///
+/// Build script for Java projects.
+///
+
+// ================================================================================
+// build classpath
+// ================================================================================
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.ajoberstar:grgit:1.3.0'
+    }
+}
+
+
+// ================================================================================
+// Java code
+// ================================================================================
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+
+// ================================================================================
+// Retrolambda
+// ================================================================================
+
+if (project.hasProperty('backport')) {
+    apply plugin: 'me.tatarka.retrolambda'
+}
+
+
+// ================================================================================
+// dependency
+// ================================================================================
+
+repositories {
+    jcenter()
+}
+
+ext.libraries = [
+    // framework
+    spring_boot:            'org.springframework.boot:spring-boot-starter:1.2.5.RELEASE',
+    spring_boot_actuator:   'org.springframework.boot:spring-boot-starter-actuator:1.2.5.RELEASE',
+    spring_boot_jdbc:       'org.springframework.boot:spring-boot-starter-jdbc:1.2.5.RELEASE',
+    spring_boot_jpa:        'org.springframework.boot:spring-boot-starter-data-jpa:1.2.5.RELEASE',
+    spring_boot_jetty:      'org.springframework.boot:spring-boot-starter-jetty:1.2.5.RELEASE',
+    spring_boot_undertow:   'org.springframework.boot:spring-boot-starter-undertow:1.2.5.RELEASE',
+    spring_boot_web:        'org.springframework.boot:spring-boot-starter-web:1.2.5.RELEASE',
+    spring_loaded:          'org.springframework:springloaded:1.2.4.RELEASE',
+
+    // database
+    h2:                     'com.h2database:h2:1.4.187',
+    hibernate_search:       'org.hibernate:hibernate-search-orm:5.3.0.Final',
+    jhdf5:                  files("\${rootProject.projectDir}/vendor/jhdf5-14.12.1/sis-jhdf5-batteries_included.jar"),
+    mapdb:                  'org.mapdb:mapdb:2.0-alpha2',
+
+    // IO
+    commons_compress:       ['org.apache.commons:commons-compress:1.9',
+                             'org.tukaani:xz:1.5'],
+    commons_csv:            'org.apache.commons:commons-csv:1.1',
+    jackson:                ['com.fasterxml.jackson.core:jackson-annotations:2.4.0',
+                             'com.fasterxml.jackson.core:jackson-databind:2.4.0',
+                             'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.4.0'],
+
+    // CUI
+    argparse4j:             'net.sourceforge.argparse4j:argparse4j:0.6.0',
+    groovysh:               'org.codehaus.groovy:groovy-groovysh:2.4.4',
+
+    // GUI
+    controlsfx:             'org.controlsfx:controlsfx:8.40.9',
+    mvvmfx:                 'de.saxsys:mvvmfx:1.3.0',
+    javafx:                 files("\${System.properties['java.home']}/lib/ext/jfxrt.jar"),
+
+    // web
+    htmlcompressor:         'com.googlecode.htmlcompressor:htmlcompressor:1.5.2',
+    pebble:                 ['com.mitchellbosecke:pebble:1.6.0',
+                             'com.mitchellbosecke:pebble-spring3:1.6.0'],
+
+    // mathematics
+    jgrapht:                'org.jgrapht:jgrapht-core:0.9.1',
+
+    sesame:                 ['org.openrdf.sesame:sesame-model:4.0.0-M1',
+                             'org.openrdf.sesame:sesame-repository-sail:4.0.0-M1',
+                             'org.openrdf.sesame:sesame-rio-n3:4.0.0-M1',
+                             'org.openrdf.sesame:sesame-rio-rdfxml:4.0.0-M1',
+                             'org.openrdf.sesame:sesame-sail-nativerdf:4.0.0-M1'],
+
+    // language
+    jython_installer:       'org.python:jython-installer:2.7.0',
+
+    // coding helper
+    commons_beanutils:      'commons-beanutils:commons-beanutils:1.9.2',
+    guava:                  'com.google.guava:guava:18.0',
+    hibernate_validator:    'org.hibernate:hibernate-validator:5.2.0.CR1',
+    lombok:                 'org.projectlombok:lombok:1.16.4',
+
+    // test
+    assertj:                ['org.assertj:assertj-core:3.0.0',
+                             'org.assertj:assertj-guava:1.3.1'],
+    dbsetup:                'com.ninja-squad:DbSetup:1.6.0',
+    jmockit:                'org.jmockit:jmockit:1.17',
+    wiremock:               'com.github.tomakehurst:wiremock:1.56',
+    testng:                 'org.testng:testng:6.9.4',
+]
+
+
+// ================================================================================
+// Compiler options
+// ================================================================================
+
+def compilerArgs = [
+    '-Xlint:serial', '-Xlint:varargs', '-Xlint:cast', '-Xlint:dep-ann',
+    '-Xlint:divzero', '-Xlint:empty', '-Xlint:finally', '-Xlint:overrides',
+    '-Xlint:path', '-Xlint:static', '-Xlint:try', '-Xlint:fallthrough',
+    '-Xlint:rawtypes', '-Xlint:deprecation', '-Xlint:unchecked', '-Xlint:-options',
+    '-Werror'
+]
+
+[compileJava, compileTestJava]*.options*.compilerArgs = compilerArgs
+
+
+// ================================================================================
+// Test (test runner, code coverage, code analysis)
+// ================================================================================
+
+apply plugin: 'jacoco'
+apply plugin: 'sonar-runner'
+
+test {
+    useTestNG()
+}
+
+
+// ================================================================================
+// Javadoc & source jar
+// ================================================================================
+
+javadoc {
+    failOnError = false
+    excludes = ['**/com/**/*.java']
+    options.locale = 'en_US'
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+    classifier = 'sources'
+    extension = 'jar'
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    from javadoc.destinationDir
+    classifier = 'javadoc'
+    extension = 'jar'
+}
+
+
+// ================================================================================
+// Resource transformation
+// ================================================================================
+
+def getCommit() {
+    try {
+        return org.ajoberstar.grgit.Grgit.open(rootProject.file('.')).head().id
+    } catch (Exception ex) {
+        return 'UNKNOWN'
+    }
+}
+
+ext.buildInfo = [
+    version: project.version,
+    commit: getCommit(),
+    date: new Date().format("yyyy-MM-dd'T'HH:mm:ss'Z'", TimeZone.getTimeZone('UTC'))
+]
+
+processResources {
+    ['$name$-build.properties', 'application.yml'].each {
+        filesMatching("**/\$it") {
+            expand(buildInfo)
+        }
+    }
+}
+
+
+// ================================================================================
+// Maven
+// ================================================================================
+
+apply plugin: 'maven'

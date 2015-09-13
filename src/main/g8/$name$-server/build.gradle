@@ -1,0 +1,71 @@
+///
+/// Build script for server module.
+///
+
+apply from: "\${rootProject.projectDir}/gradle/java.gradle"
+apply from: "\${rootProject.projectDir}/gradle/application.gradle"
+
+mainClassName = '$package$.Server'
+
+configurations {
+    loaded
+}
+
+dependencies {
+    // project
+    compile     project(':$name$-api')
+    runtime     project(':$name$-impl')
+
+    // framework
+    compile     libraries.spring_boot
+    compile     libraries.spring_boot_actuator
+    compile     libraries.spring_boot_undertow
+    compile     libraries.spring_boot_web
+
+    // database
+    compile     libraries.h2
+
+    // web
+    compile     libraries.htmlcompressor
+    compile     libraries.pebble
+
+    // coding helper
+    compile     libraries.guava
+    compile     libraries.hibernate_validator
+    compile     libraries.lombok
+
+    // test
+    testCompile libraries.assertj
+    testCompile libraries.jmockit
+    testCompile libraries.testng
+
+    // runWithReloader
+    loaded      libraries.spring_loaded
+}
+
+task runWithReloader(dependsOn: classes) << {
+    //
+    if (!project.hasProperty('backport')) {
+        throw new RuntimeException('runWithReloader requires -Pbackport flag')
+    }
+
+    //
+    def classpath = sourceSets.main.runtimeClasspath.findAll { !it.path.contains('$name$-') }.join(':')
+
+    def modules = (configurations.runtime.asPath.findAll('$name$\\\\-[a-z\\\\-]+') as Set) + ['$name$-server']
+    modules.findAll { !it.endsWith('-') }.each {
+        def template = "\${rootProject.projectDir}/\${it}/build/%s/main:"
+        classpath = String.format(template, "classes") + classpath
+        classpath = String.format(template, "resources") + classpath
+    }
+
+    //
+    exec {
+        workingDir rootProject.projectDir
+        environment 'SPRING_CONFIG_LOCATION', "\${rootProject.projectDir}/application.yml"
+
+        executable 'java'
+        args '-javaagent:' + configurations.loaded.asPath, '-noverify', '-cp', classpath, mainClassName
+
+    }
+}

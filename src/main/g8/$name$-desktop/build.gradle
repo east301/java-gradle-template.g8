@@ -1,0 +1,35 @@
+///
+/// Build script for desktop module.
+///
+
+apply from: "\${rootProject.projectDir}/gradle/java.gradle"
+apply from: "\${rootProject.projectDir}/gradle/application.gradle"
+
+mainClassName = '$package$.Desktop'
+
+dependencies {
+    // project
+    compile     project(':$name$-api')
+    runtime     project(':$name$-impl')
+
+    // framework
+    compile     libraries.spring_boot
+
+    // database
+    compile     libraries.h2
+
+    // GUI
+    compile     libraries.controlsfx
+    compile     libraries.javafx
+    compile     libraries.mvvmfx
+
+    // coding helper
+    compile     libraries.guava
+    compile     libraries.hibernate_validator
+    compile     libraries.lombok
+
+    // test
+    testCompile libraries.assertj
+    testCompile libraries.jmockit
+    testCompile libraries.testng
+}

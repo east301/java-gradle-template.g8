@@ -1,0 +1,17 @@
+///
+/// Build settings for $name$ project.
+///
+
+include ':$name$-all'
+
+include ':$name$-api'
+include ':$name$-impl'
+
+include ':$name$-desktop'
+include ':$name$-cli'
+include ':$name$-server'
+
+include ':resource'
+
+include ':doc'
+include ':javadoc'
