@@ -1,0 +1,23 @@
+###
+### .travis.yml
+###
+
+language: java
+
+sudo: false
+
+jdk:
+  - oraclejdk8
+
+before_script:
+  - curl https://raw.githubusercontent.com/n8han/conscript/master/setup.sh | sh
+  - ~/bin/cs n8han/giter8
+
+script:
+  - ~/bin/g8 file://$(pwd) --name=project --package=com.example
+  - cd project
+  - chmod +x ./gradlew
+  - ./gradlew idea
+  - ./gradlew jar
+  - ./gradlew :resource:generateDependencyLicenseReport
+  - ./gradlew :project-all:distZip :project-all:distTar
