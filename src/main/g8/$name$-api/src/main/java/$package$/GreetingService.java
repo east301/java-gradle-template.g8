@@ -8,7 +8,7 @@ public interface GreetingService {
     /**
      * Generates greeting message.
      *
-     * @returns greeting message
+     * @return greeting message
      */
     String greet();
 
