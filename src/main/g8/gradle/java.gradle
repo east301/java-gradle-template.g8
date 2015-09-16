@@ -43,6 +43,7 @@ if (project.hasProperty('backport')) {
 
 repositories {
     jcenter()
+    maven { url 'https://east301.github.io/nora-maven-repository' }
 }
 
 ext.libraries = [
@@ -59,7 +60,7 @@ ext.libraries = [
     // database
     h2:                     'com.h2database:h2:1.4.187',
     hibernate_search:       'org.hibernate:hibernate-search-orm:5.3.0.Final',
-    jhdf5:                  files("\${rootProject.projectDir}/vendor/jhdf5-14.12.1/sis-jhdf5-batteries_included.jar"),
+    jhdf5:                  'jhdf5:jhdf5:14.12.2',
     mapdb:                  'org.mapdb:mapdb:2.0-alpha2',
 
     // IO
