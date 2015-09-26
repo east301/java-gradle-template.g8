@@ -1,4 +1,4 @@
-package jp.ac.tohoku.ecei.sb.gprdb;
+package $package$;
 
 import mockit.Deencapsulation;
 import mockit.Delegate;
@@ -16,9 +16,6 @@ import java.util.function.Consumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * @author Shu Tadaka
- */
 public class LauncherTest {
 
     ///
