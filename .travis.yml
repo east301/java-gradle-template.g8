@@ -19,5 +19,6 @@ script:
   - chmod +x ./gradlew
   - ./gradlew idea
   - ./gradlew jar
+  - ./gradlew test
   - ./gradlew :resource:generateDependencyLicenseReport
   - ./gradlew :project-all:distZip :project-all:distTar
