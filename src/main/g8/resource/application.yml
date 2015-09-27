@@ -27,6 +27,7 @@ server:
 management:
   port: 8081
   contextPath: /management
+  addApplicationContextHeader: false
 
 
 # ================================================================================
