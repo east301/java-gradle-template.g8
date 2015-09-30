@@ -2,7 +2,7 @@
 /// Build settings for $name$ project.
 ///
 
-include ':$name$-all'
+include ':$name$'
 
 include ':$name$-api'
 include ':$name$-impl'

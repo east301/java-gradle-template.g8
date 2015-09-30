@@ -11,7 +11,7 @@ RUN cd /opt/$name$-source \
   && ./gradlew clean \
   && ./gradlew jar \
   && ./gradlew :resource:generateDependencyLicenseReport \
-  && ./gradlew :$name$-all:distZip :$name$-all:distTar
+  && ./gradlew :$name$:distZip :$name$:distTar
 
 RUN cd /opt/$name$ \
-  && tar xvf /opt/$name$-source/$name$-all/build/distributions/$name$-*.tar --strip 1
+  && tar xvf /opt/$name$-source/$name$/build/distributions/$name$-*.tar --strip 1

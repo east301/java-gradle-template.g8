@@ -21,4 +21,4 @@ script:
   - ./gradlew jar
   - ./gradlew test
   - ./gradlew :resource:generateDependencyLicenseReport
-  - ./gradlew :project-all:distZip :project-all:distTar
+  - ./gradlew :project:distZip :project:distTar
