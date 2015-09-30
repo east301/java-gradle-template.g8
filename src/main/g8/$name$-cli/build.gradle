@@ -10,7 +10,7 @@ mainClassName = '$package$.Cli'
 dependencies {
     // project
     compile     project(':$name$-api')
-    compile     project(':$name$-impl')
+    runtime     project(':$name$-impl')
 
     // framework
     compile     libraries.spring_boot
