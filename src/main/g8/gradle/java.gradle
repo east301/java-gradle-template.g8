@@ -48,13 +48,13 @@ repositories {
 
 ext.libraries = [
     // framework
-    spring_boot:            'org.springframework.boot:spring-boot-starter:1.2.5.RELEASE',
-    spring_boot_actuator:   'org.springframework.boot:spring-boot-starter-actuator:1.2.5.RELEASE',
-    spring_boot_jdbc:       'org.springframework.boot:spring-boot-starter-jdbc:1.2.5.RELEASE',
-    spring_boot_jpa:        'org.springframework.boot:spring-boot-starter-data-jpa:1.2.5.RELEASE',
-    spring_boot_jetty:      'org.springframework.boot:spring-boot-starter-jetty:1.2.5.RELEASE',
-    spring_boot_undertow:   'org.springframework.boot:spring-boot-starter-undertow:1.2.5.RELEASE',
-    spring_boot_web:        'org.springframework.boot:spring-boot-starter-web:1.2.5.RELEASE',
+    spring_boot:            'org.springframework.boot:spring-boot-starter:1.2.6.RELEASE',
+    spring_boot_actuator:   'org.springframework.boot:spring-boot-starter-actuator:1.2.6.RELEASE',
+    spring_boot_jdbc:       'org.springframework.boot:spring-boot-starter-jdbc:1.2.6.RELEASE',
+    spring_boot_jpa:        'org.springframework.boot:spring-boot-starter-data-jpa:1.2.6.RELEASE',
+    spring_boot_jetty:      'org.springframework.boot:spring-boot-starter-jetty:1.2.6.RELEASE',
+    spring_boot_undertow:   'org.springframework.boot:spring-boot-starter-undertow:1.2.6.RELEASE',
+    spring_boot_web:        'org.springframework.boot:spring-boot-starter-web:1.2.6.RELEASE',
     spring_loaded:          'org.springframework:springloaded:1.2.4.RELEASE',
 
     // database
